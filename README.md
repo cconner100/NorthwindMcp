@@ -107,7 +107,7 @@ Warp makes managing this project's dependencies and daily workflows much easier!
 
 **macOS/Linux:**
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/cconner100/NorthwindMcp.git
 cd NorthwindMcp
 
 # Run the setup script - it handles everything!
@@ -116,7 +116,7 @@ cd NorthwindMcp
 
 **macOS with Warp Terminal (Enhanced Experience):**
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/cconner100/NorthwindMcp.git
 cd NorthwindMcp
 
 # Run the Warp-optimized setup script
@@ -125,7 +125,7 @@ cd NorthwindMcp
 
 **Windows with Warp Terminal (Enhanced Experience):**
 ```powershell
-git clone <your-repo-url>
+git clone https://github.com/cconner100/NorthwindMcp.git
 cd NorthwindMcp
 
 # Run the Warp-optimized setup script
@@ -134,7 +134,7 @@ cd NorthwindMcp
 
 **Windows (PowerShell):**
 ```powershell
-git clone <your-repo-url>
+git clone https://github.com/cconner100/NorthwindMcp.git
 cd NorthwindMcp
 
 # Run the setup script - it handles everything!
@@ -143,7 +143,7 @@ cd NorthwindMcp
 
 **Windows (Command Prompt):**
 ```cmd
-git clone <your-repo-url>
+git clone https://github.com/cconner100/NorthwindMcp.git
 cd NorthwindMcp
 
 # Run the setup script - it handles everything!
@@ -153,7 +153,7 @@ setup.bat
 #### Option B: Manual Setup
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/cconner100/NorthwindMcp.git
 cd NorthwindMcp
 
 # Copy environment template and customize if needed
