@@ -3,8 +3,9 @@
 A Model Context Protocol (MCP) server implementation that provides access to the classic Northwind database through standardized tools and resources. This project includes a complete Docker setup for easy deployment and sharing.
 
 ## Before you start recomended reading
-MCP Specifications https://github.com/modelcontextprotocol/servers
-Microsoft MCP C# repository https://github.com/modelcontextprotocol/csharp-sdk
+
+- MCP Specifications https://github.com/modelcontextprotocol/servers
+- Microsoft MCP C# repository https://github.com/modelcontextprotocol/csharp-sdk
 
 ## 💻 Recommended Terminal: Warp
 
