@@ -148,5 +148,5 @@ Write-Host ""
 Write-Host "5. Optional: Set up Anthropic API key for AI features:" -ForegroundColor White
 Write-Host "   dotnet user-secrets set `"ANTHROPIC_API_KEY`" `"your-api-key`" --project Client" -ForegroundColor Gray
 Write-Host ""
-Write-Host "📚 For more information, check the README.md file" -ForegroundColor Cyan
-Write-Host "🐛 If you encounter issues, run: docker logs northwind-database" -ForegroundColor Cyan
+Write-Host "[INFO] For more information, check the README.md file" -ForegroundColor Cyan
+Write-Host "[DEBUG] If you encounter issues, run: docker logs northwind-database" -ForegroundColor Cyan

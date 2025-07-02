@@ -173,6 +173,31 @@ make test
 make query
 ```
 
+## Note before you run you must edit the appsettings.json file in the client to set your OpenAI API key if you want to use the AI features. If you do not want to use the AI features, you can skip this step.
+ please edit the following line in the appsettings.json file in the Client project:
+ ```json
+ "OpenAI": {
+    "Endpoint": "your-azure-openai-endpoint",
+    "Key": "your-azure-openai-key",
+    "DeploymentName": "your-deployment-name"
+  },
+    "MCPServers": {
+    "ZiiDMSNextGen": {
+      "Name": "Northwind Server",
+      "Command": "dotnet",
+      "Arguments": [
+        "run",
+        "--project",
+        "C:\\Users\\Admin\\source\\repos\\cconner100\\NorthwindMcp\\Server\\NorthwindMcpServer.csproj"
+       
+      ],
+      "Enabled": true,
+      "WorkingDirectory": null,
+      "EnvironmentVariables": null
+    }
+  }
+  ```
+  Enter your keys and the complete path to the NorthwindMcpServer.csproj file in the Arguments section. This is required for the AI features to work properly.
 ### 3. Run the MCP Server
 
 ```bash
