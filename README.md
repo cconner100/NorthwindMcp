@@ -7,31 +7,15 @@ A Model Context Protocol (MCP) server implementation that provides access to the
 - MCP Specifications https://github.com/modelcontextprotocol/servers
 - Microsoft MCP C# repository https://github.com/modelcontextprotocol/csharp-sdk
 
-## 💻 Recommended Terminal: Warp
-
-This project works great with [Warp Terminal](https://www.warp.dev/), which offers:
-
-- **Smart package management** - Install Docker and .NET with simple commands
-- **AI-powered command suggestions** - Get help with Docker and SQL commands
-- **Beautiful output formatting** - Enhanced readability for database queries
-- **Built-in workflows** - Save and share common command sequences
-- **Collaborative features** - Share terminal sessions with your team
-
-Warp makes managing this project's dependencies and daily workflows much easier!
-
-## 🚀 Quick Start
-
-### Prerequisites
-
+## Installing Prerequisites
+These are pre-requisites for running the Northwind MCP server. You can use Warp Terminal for a streamlined installation experience, or follow manual installation steps.
 - Docker and Docker Compose
-- Make (optional, but recommended)
 - .NET 8.0 SDK
+- Make (optional, but recommended)
 
-### Installing Prerequisites
+### Option A: Using Warp Terminal (Recommended)
 
-#### Option A: Using Warp Terminal (Recommended)
-
-[Warp](https://www.warp.dev/) is a modern terminal with built-in package management that makes installing prerequisites easy:
+[Warp](#warp-point) is a modern terminal with built-in package management that makes installing prerequisites easy:
 
 1. **Install Warp Terminal:**
    - **All platforms:** Download from [warp.dev](https://www.warp.dev/)
@@ -92,7 +76,7 @@ Warp makes managing this project's dependencies and daily workflows much easier!
    choco install make -y
    ```
 
-#### Option B: Manual Installation
+### Option B: Manual Installation
 
 **Docker:**
 - **macOS/Windows:** Download Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop/)
@@ -106,9 +90,8 @@ Warp makes managing this project's dependencies and daily workflows much easier!
 - **Windows:** Install via Chocolatey: `choco install make` or use Git Bash
 - **Linux:** Usually pre-installed, or `sudo apt install make` / `sudo yum install make`
 
-### 1. Clone and Setup Database
-
-#### Option A: Automated Setup (Recommended)
+## Clone and Setup Database
+### Option A: Automated Setup (Recommended)
 
 **macOS/Linux:**
 ```bash
@@ -155,7 +138,7 @@ cd NorthwindMcp
 setup.bat
 ```
 
-#### Option B: Manual Setup
+### Option B: Manual Setup
 
 ```bash
 git clone https://github.com/cconner100/NorthwindMcp.git
@@ -168,7 +151,8 @@ cp .env.example .env
 make up
 ```
 
-### 2. Verify Database Connection
+
+You can verify Database Connection by using the following command:
 
 ```bash
 # Test database connectivity
@@ -178,43 +162,62 @@ make test
 make query
 ```
 
-## Note before you run you must edit the appsettings.json file in the client to set your OpenAI API key if you want to use the AI features. If you do not want to use the AI features, you can skip this step.
- please edit the following line in the appsettings.json file in the Client project:
+## Set up Configuration
+### Set up OpenAI API key
+If you do not want to use the AI features, you can skip this step. If you want to use the AI features, you must set your OpenAI API key. 
+To set your OpenAI API key, edit the OpenAI configuration properties in the *appsettings.json* file in the *Client** project:
+
  ```json
  "OpenAI": {
     "Endpoint": "your-azure-openai-endpoint",
     "Key": "your-azure-openai-key",
     "DeploymentName": "your-deployment-name"
   },
-    "MCPServers": {
+ ```
+### Set up MCP Server Configuration
+Change Arguments in the *appsettings.json* file in the *Client* project to point to the NorthwindMcpServer.csproj file. This is required for the AI features to work properly.
+```json
     "ZiiDMSNextGen": {
-      "Name": "Northwind Server",
-      "Command": "dotnet",
       "Arguments": [
         "run",
         "--project",
-        "C:\\Users\\Admin\\source\\repos\\cconner100\\NorthwindMcp\\Server\\NorthwindMcpServer.csproj"
-       
+        "{YOUR-FULL-PATH}\\NorthwindMcpServer.csproj"
       ],
-      "Enabled": true,
-      "WorkingDirectory": null,
-      "EnvironmentVariables": null
-    }
-  }
-  ```
-  Enter your keys and the complete path to the NorthwindMcpServer.csproj file in the Arguments section. This is required for the AI features to work properly.
-### 3. Run the MCP Server
+ ```
+
+### Set up for debugging purposes
+You need to add more arguments to the *appsettings.json* file in the *Client* project to enable debugging. This is useful if you want to debug the MCP server while running it from the client.
+```json
+    "ZiiDMSNextGen": {
+      "Arguments": [
+        "run",
+        "--project",
+        "{YOUR-FULL-PATH}\\NorthwindMcpServer.csproj"
+        "--",
+        "--attach-debugger"
+      ],
+ ```
+
+## Let's run the MCP Server
+### Build the project
+```bash
+dotnet build
+```
+
+### Run the project
+The client will automatically start the server as a subprocess:
+After running the command, you can attache the debugger to the server process if you have set up the debugging arguments in the *appsettings.json* file.
 
 ```bash
-# Build the solution
-dotnet build
-
-# Run the client (recommended - starts server automatically)
 cd Client
 dotnet run
 ```
+---
 
-## 📦 What's Included
+*Happy querying with MCP! 🎯*
+
+
+## 📇 Appendix:
 
 ### Docker Environment
 
@@ -225,69 +228,9 @@ dotnet run
 - **Easy deployment** with Docker Compose and Makefile
 
 ### MCP Implementation
-
 - **Server**: Console application that connects to Northwind database and provides customer query functionality
 - **Client**: Test client with AI integration (Anthropic Claude) for natural language queries
 - **Database**: SQL Server 2022 running in Docker with fully populated Northwind sample database
-
-## Features
-
-### Server Tools
-- `GetCustomers`: Query the Customers table with optional name filtering
-  - Parameters:
-    - `name` (optional): Filter customers by company name (partial match)
-  - Returns: List of Customer objects with all fields
-
-### Client Modes
-1. **AI Mode**: Uses Anthropic Claude to interpret natural language queries
-2. **Direct Tool Mode**: Direct interaction with MCP tools (fallback when no API key)
-
-## Prerequisites
-
-1. **SQL Server with Northwind Database**: 
-   - Ensure your Docker container is running: `docker ps` should show `northwind-db`
-   - Connection: `localhost:1433` with credentials `sa/YourStrong@Passw0rd`
-
-2. **.NET 8.0 SDK**
-
-3. **Anthropic API Key** (optional, for AI features):
-   ```bash
-   dotnet user-secrets set "ANTHROPIC_API_KEY" "your-api-key-here" --project Client
-   ```
-
-## Building
-
-From the `NorthwindMcp` directory:
-
-```bash
-dotnet build
-```
-
-## Running
-
-### Option 1: Run Client (Recommended)
-The client will automatically start the server as a subprocess:
-
-```bash
-cd Client
-dotnet run
-```
-
-### Option 2: Run Server and Client Separately
-
-Terminal 1 (Server):
-```bash
-cd Server
-dotnet run
-```
-
-Terminal 2 (Client):
-```bash
-cd Client
-dotnet run
-```
-
-## Usage Examples
 
 ### With AI (if ANTHROPIC_API_KEY is configured):
 ```
@@ -304,7 +247,7 @@ dotnet run
 > exit                   # Exit application
 ```
 
-## Project Structure
+### Project Structure
 
 ```
 NorthwindMcp/
@@ -319,7 +262,7 @@ NorthwindMcp/
 └── README.md
 ```
 
-## Key Technologies
+### Key Technologies
 
 - **Model Context Protocol (MCP)**: For server-client communication
 - **Microsoft.Data.SqlClient**: SQL Server database connectivity
@@ -350,173 +293,18 @@ The server connects to SQL Server using:
    - Verify ANTHROPIC_API_KEY is set correctly
    - Check API key permissions and rate limits
 
-## 🛠️ Docker Commands
+<a name="warp-point"></a>
+### 💻 Recommended Terminal: Warp
 
-### macOS/Linux (with Make)
+This project works great with [Warp Terminal](https://www.warp.dev/), which offers:
 
-| Command | Description |
-|---------|-------------|
-| `make up` | Start the Northwind database container |
-| `make down` | Stop and remove the container |
-| `make build` | Build the Docker image |
-| `make logs` | View container logs |
-| `make test` | Test database connectivity |
-| `make query` | Open interactive SQL shell |
-| `make clean` | Remove all containers, images, and volumes |
-| `make rebuild` | Clean, build, and restart everything |
-| `make status` | Show container status |
+- **Smart package management** - Install Docker and .NET with simple commands
+- **AI-powered command suggestions** - Get help with Docker and SQL commands
+- **Beautiful output formatting** - Enhanced readability for database queries
+- **Built-in workflows** - Save and share common command sequences
+- **Collaborative features** - Share terminal sessions with your team
 
-### Windows/Cross-platform (Docker Compose)
-
-| Command | Description |
-|---------|-------------|
-| `docker-compose up -d` | Start the Northwind database container |
-| `docker-compose down` | Stop and remove the container |
-| `docker-compose build` | Build the Docker image |
-| `docker-compose logs northwind-db` | View container logs |
-| `docker exec northwind-database /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'YourStrong@Passw0rd' -C -Q "SELECT COUNT(*) FROM Customers"` | Test database connectivity |
-| `docker exec -it northwind-database /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'YourStrong@Passw0rd' -C` | Open interactive SQL shell |
-| `docker-compose down -v && docker system prune -f` | Remove all containers, images, and volumes |
-| `docker-compose down && docker-compose build && docker-compose up -d` | Clean, build, and restart everything |
-| `docker-compose ps` | Show container status |
-
-## ⚙️ Configuration
-
-### Environment Variables
-
-Copy `.env.example` to `.env` and customize:
-
-```bash
-# Database Configuration
-SA_PASSWORD=YourStrong@Passw0rd
-MSSQL_PID=Developer
-ACCEPT_EULA=Y
-
-# Container Configuration
-CONTAINER_NAME=northwind-database
-HOST_PORT=1433
-
-# Connection Details
-SERVER_NAME=localhost
-DATABASE_NAME=Northwind
-```
-
-### Database Connection String
-
-```
-Server=localhost,1433;Database=Northwind;User Id=sa;Password=<SA_PASSWORD>;TrustServerCertificate=true;
-```
-
-## 📊 Database Schema
-
-The Northwind database includes these main tables:
-- **Customers** - Customer information
-- **Orders** - Order records
-- **Products** - Product catalog
-- **Categories** - Product categories
-- **Suppliers** - Supplier information
-- **Employees** - Employee records
-- **Order Details** - Line items for orders
-
-## 🔧 Development
-
-### Project Structure
-
-```
-NorthwindMcp/
-├── docker/                 # Docker configuration
-│   ├── Dockerfile
-│   ├── entrypoint.sh
-│   ├── init-northwind.sql
-│   └── setup-northwind.sh
-├── Server/                 # MCP Server implementation
-│   ├── Program.cs
-│   └── NorthwindMcpServer.csproj
-├── Client/                 # MCP Client implementation
-│   ├── Program.cs
-│   └── NorthwindMcpClient.csproj
-├── docker-compose.yml      # Container orchestration
-├── Makefile               # Development commands (macOS/Linux)
-├── setup.sh               # Setup script (macOS/Linux)
-├── warp-setup.sh          # Setup script (Warp Terminal optimized - macOS/Linux)
-├── warp-setup.ps1         # Setup script (Warp Terminal optimized - Windows)
-├── setup.ps1              # Setup script (Windows PowerShell)
-├── setup.bat              # Setup script (Windows Command Prompt)
-├── .env.example           # Environment template
-├── .gitignore             # Git ignore file
-├── .dockerignore          # Docker ignore file
-├── Directory.Packages.props # Package management
-├── NorthwindMcp.sln       # Solution file
-└── README.md              # This file
-```
-
-### Adding New MCP Tools
-
-1. Add a new method to the server in `Server/Program.cs`
-2. Follow the existing pattern for database queries
-3. Return JSON-serialized data
-4. Test with the client
-
-### Database Customization
-
-- Modify `docker/init-northwind.sql` to add custom tables or data
-- Update `docker/setup-northwind.sh` for additional initialization
-- Rebuild with `make rebuild`
-
-## 📝 Sample Queries
-
-### Via SQL Shell (`make query`)
-
-```sql
--- List all customers
-SELECT CustomerID, CompanyName, Country FROM Customers;
-
--- Orders by customer
-SELECT c.CompanyName, COUNT(o.OrderID) as OrderCount
-FROM Customers c
-LEFT JOIN Orders o ON c.CustomerID = o.CustomerID
-GROUP BY c.CompanyName
-ORDER BY OrderCount DESC;
-
--- Top products by sales
-SELECT TOP 10 p.ProductName, SUM(od.Quantity * od.UnitPrice) as Revenue
-FROM Products p
-JOIN [Order Details] od ON p.ProductID = od.ProductID
-GROUP BY p.ProductName
-ORDER BY Revenue DESC;
-```
-
-### Via MCP Client
-
-```bash
-# Natural language queries (with AI)
-> Show me all customers from Germany
-> Find customers with 'Alfreds' in their name
-> How many customers do we have?
-
-# Direct tool queries
-> all
-> search London
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test with `make test` and `dotnet test`
-5. Submit a pull request
-
-## 📜 License
-
-This project is open source. The Northwind database is a Microsoft sample database.
-
-## 🆘 Support
-
-- Check the [Issues](../../issues) for common problems
-- Review container logs: `make logs`
-- Test database connectivity: `make test`
-- Verify environment configuration: `cat .env`
+Warp makes managing this project's dependencies and daily workflows much easier!
 
 ### Warp Terminal Tips
 
@@ -560,7 +348,3 @@ newgrp docker
 lsof -i :1433  # macOS/Linux
 netstat -ano | findstr :1433  # Windows
 ```
-
----
-
-*Happy querying with MCP! 🎯*

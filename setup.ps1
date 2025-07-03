@@ -81,7 +81,7 @@ ENABLE_PERSISTENCE=true
 Write-Host "Building and starting the Northwind database..." -ForegroundColor Yellow
 try {
     # Try docker-compose first
-    docker-compose build
+    docker-compose build --no-cache
     docker-compose up -d
 } catch {
     try {
